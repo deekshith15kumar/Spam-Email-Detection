@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam Classifier</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: -webkit-linear-gradient(45deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Email Spam Classifier</h2>
+        {% if user %}
+            <p class="mt-3">Welcome, <strong>{{ user }}</strong>! Stay protected from spam emails.</p>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            
+            <div class="glass-card">
+                <h4>Classify a Single Email</h4>
+                <form action="{{ url_for('classify_single') }}" method="POST">
+                    <textarea class="form-control" name="email" rows="4" placeholder="Enter email content..." required></textarea>
+                    <button type="submit" class="btn btn-primary mt-3">Classify Email</button>
+                </form>
+            </div>
+
+            <div class="glass-card">
+                <h4>Classify Emails from CSV File</h4>
+                <form action="{{ url_for('classify') }}" method="POST" enctype="multipart/form-data">
+                    <input type="file" class="form-control" name="file" accept=".csv" required>
+                    <button type="submit" class="btn btn-success mt-3">Upload and Classify</button>
+                </form>
+            </div>
+        {% else %}
+            <p>You are not logged in.Register to Login</p>
+            <a href="{{ url_for('login') }}" class="btn btn-light">Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+            
+        {% endif %}
+    </div>
+</body>
+</html>
